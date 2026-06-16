@@ -16,8 +16,14 @@ public class URLShortener {
 
     // 3. Method to shorten a URL
     public String shorten(String url){
+          String existingSlug = store.getSlugForUrl(url);
+            if(existingSlug != null ){
+                return existingSlug;
+            }
+
+
         String slug;
-        // The collision guard : generate util we get a totally unique slug
+        // The collision guard : generate until we get a unique slug
 
         do {
             slug = generateSlug();
@@ -50,10 +56,15 @@ public class URLShortener {
 
     // get all dta - delegates to URLStore
     public Map<String, String> getAll(){
+
         return store.getAll();
     }
     //load dta - delegates to URLStore
     public void loadAll(Map<String,String>data){
+        for (Map.Entry<String,String>entry:data.entrySet()){
+            store.save(entry.getKey(), entry.getValue());
+        }
+
         store.loadAll(data);
     }
 }

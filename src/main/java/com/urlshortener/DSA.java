@@ -2,6 +2,8 @@ package com.urlshortener;
 
 public class DSA {
     public static int countNumber(int[]arr1, int target){
+        //time = o(1)
+        //space = o(1)
         int count = 0;
         for (int num : arr1) {
             if (num == target) {
@@ -11,10 +13,12 @@ public class DSA {
         return count;
      }
 
-  public static int  linearSearch(int[]arr,int target){
+  public static int  linearSearch(int[]num,int target){
+      //time =o(n)---> not sure maybe be because it grows exactly with size of input
+      //space = o(1)
         int index = 0;
-        for(int i = 0; i<arr.length;i++){
-            if(arr[i] == target){
+        for(int i = 0; i<num.length;i++){
+            if(num[i] == target){
                  return i;
             }
         }
@@ -23,7 +27,10 @@ public class DSA {
 
 
 public static void main(String[] args){
-
+// find the largest number in the given block
+      // time= o(n)--> as it start from [0] but nested loop is also there and linear time -> because it check every
+    //   element .
+    //space=o(1)
             int[] number1 = {3, 7, 1, 9, 4};
             int largest1 = number1[0];
 
@@ -50,15 +57,18 @@ public static void main(String[] args){
 
 
             //sum
+    //time =o(1)
+    //space = o(1)
             int[] number = {1, 2, 3, 4, 5};
             int sum = 0;  // start sum from 0
             for (int num : number) {
                 sum = sum + num;
             }
-
             System.out.println("sum is" + sum);
 
+
             //find the smallest thing:
+
             int[] number3 = {3, 7, 1, 9, 4}; // list of numbers
             int smallest = number3[0]; // considering the 1st number as the smallest number
             for (int num : number3) {  // looking at each number if the current number is smaller than 1st number
@@ -71,6 +81,7 @@ public static void main(String[] args){
 
 
             //reverse the array
+
             int[] arr = {1, 2, 3, 4, 5};
             int i = 0; //start with 0 index
             int j = arr.length - 1;// last index of the array
@@ -91,6 +102,8 @@ public static void main(String[] args){
 
 
             // loop and counting
+    //time =
+    //space = 0(1)
             int[] arr2 = {1, 2, 1, 3, 1, 4};
             int result = countNumber(arr2, 2);
             System.out.println("count " + result);
@@ -101,6 +114,7 @@ public static void main(String[] args){
 
 
              //LinerSearch
+
     int []arr0= {10, 20, 30, 40};
              result = (linearSearch(arr0,30));
     System.out.println("Index " + result);
