@@ -2,10 +2,14 @@
 
 A high-throughput URL shortener built in Java.
 
-## What it does
+ ## What it does
 - Shorten a long URL to a 6-character slug
 - Expand a slug back to the original URL
 - In-memory storage using HashMap
+- File persistence — URLs survive program restart
+- Same URL always returns same slug (reverse index)
+- Input validation — only http:// and https:// accepted
+- Custom exception handling — InvalidURLException
 
 ## How to run
 ```bash
