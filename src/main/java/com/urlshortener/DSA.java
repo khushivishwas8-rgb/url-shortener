@@ -24,6 +24,7 @@ public class DSA {
         }
         return -1;
     }
+
     //pallindrome
     public static boolean isPalindrome(int[] arr7) { // method
 
@@ -51,13 +52,37 @@ public class DSA {
             if (arr[mid] == target) {
                 return mid;
             } else if (arr[mid] < target) {
-                low = mid+1;
+                low = mid + 1;
             } else {
-                high = mid-1;
+                high = mid - 1;
             }
         }
         return -1;
+        //time complexity:o(log n)
+        //space complexity:
     }
+    public static String reverseString(String str) {
+        char[] arr = str.toCharArray();
+        int i = 0;
+        int j = arr.length - 1;
+        while ( i<j){
+            char temp = arr[i];
+            arr[i]= arr[j];
+            arr[j]=   temp;
+            i++;
+            j--;
+
+            // converting back to string
+
+
+        }
+        return new String(arr);
+        //time complexity = o(n)
+        //space complexity =
+    }
+
+
+
 
 
 
@@ -77,99 +102,109 @@ public class DSA {
             }
         }
 
-            System.out.println("The largest number is:" + largest1);
+        System.out.println("The largest number is:" + largest1);
 
-            int[] number2 = {15, 2, 8, 15, 6};
-            int largest2 = number2[0];
-            for (int num : number2) {
-                if (num > largest2) {
-                    largest2 = num;
-                }
+        int[] number2 = {15, 2, 8, 15, 6};
+        int largest2 = number2[0];
+        for (int num : number2) {
+            if (num > largest2) {
+                largest2 = num;
             }
+        }
 
-            System.out.println("Largest number is " + largest2);
+        System.out.println("Largest number is " + largest2);
 
 
-            //sum
-            //time =o(1)
-            //space = o(1)
-            int[] number = {1, 2, 3, 4, 5};
-            int sum = 0;  // start sum from 0
-            for (int num : number) {
-                sum = sum + num;
+        //sum
+        //time =o(1)
+        //space = o(1)
+        int[] number = {1, 2, 3, 4, 5};
+        int sum = 0;  // start sum from 0
+        for (int num : number) {
+            sum = sum + num;
+        }
+        System.out.println("sum is" + sum);
+
+
+        //find the smallest thing:
+
+        int[] number3 = {3, 7, 1, 9, 4}; // list of numbers
+        int smallest = number3[0]; // considering the 1st number as the smallest number
+        for (int num : number3) {  // looking at each number if the current number is smaller than 1st number
+            if (num < smallest) {   // take the current number.
+                smallest = num; // update the smallest number
             }
-            System.out.println("sum is" + sum);
+        }
+        System.out.println("Smallest number is " + smallest);
 
 
-            //find the smallest thing:
+        //reverse the array
 
-            int[] number3 = {3, 7, 1, 9, 4}; // list of numbers
-            int smallest = number3[0]; // considering the 1st number as the smallest number
-            for (int num : number3) {  // looking at each number if the current number is smaller than 1st number
-                if (num < smallest) {   // take the current number.
-                    smallest = num; // update the smallest number
-                }
-            }
-            System.out.println("Smallest number is " + smallest);
+        int[] arr = {1, 2, 3, 4, 5};
+        int i = 0; //start with 0 index
+        int j = arr.length - 1;// last index of the array
 
 
-            //reverse the array
-
-            int[] arr = {1, 2, 3, 4, 5};
-            int i = 0; //start with 0 index
-            int j = arr.length - 1;// last index of the array
-
-
-            while (i < j) {// to swap 1st with the last until we reach at the middle
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-                i++;
-                --j;
-            }
-            //print reversed array;
-            for (int num : arr) {
-                System.out.println(num + " ");
-            }
-
-
-            // loop and counting
-            //time =
-            //space = 0(1)
-            int[] arr2 = {1, 2, 1, 3, 1, 4};
-            int result = countNumber(arr2, 2);
-            System.out.println("count " + result);
-
-            int[] arr4 = {22, 35, 22, 78, 22};
-            result = countNumber(arr4, 22);
-            System.out.println("count " + result);
-
-
-            //LinerSearch
-
-            int[] arr0 = {10, 20, 30, 40};
-            result = (linearSearch(arr0, 30));
-            System.out.println("Index " + result);
-
-            int[] arr5 = {10, 20, 30, 40};
-            result = (linearSearch(arr5, 90));
-            System.out.println("Index " + result);
-
-            int[] arr6 = {5, 15, 25};
-            result = (linearSearch(arr6, 30));
-            System.out.println("Index " + result);
-
-            //palindrome
-            int[] array = {1, 2, 3, 2, 1};
-            boolean check = isPalindrome(array);
-            System.out.println("Is palindrome: " + check);
-
-            //binarySearch
-            int[] arr8 = {10, 20, 30, 40, 50};
-            int searchResult = binarySearch(arr8, 30);
-            System.out.println("Index " + searchResult);
+        while (i < j) {// to swap 1st with the last until we reach at the middle
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            --j;
+        }
+        //print reversed array;
+        for (int num : arr) {
+            System.out.print(num + " ");
         }
 
 
+        // loop and counting
+        //time =
+        //space = 0(1)
+        int[] arr2 = {1, 2, 1, 3, 1, 4};
+        int result = countNumber(arr2, 2);
+        System.out.println("count " + result);
+
+        int[] arr4 = {22, 35, 22, 78, 22};
+        result = countNumber(arr4, 22);
+        System.out.println("count " + result);
+
+
+        //LinerSearch
+
+        int[] arr0 = {10, 20, 30, 40};
+        result = (linearSearch(arr0, 30));
+        System.out.println("Index " + result);
+
+        int[] arr5 = {10, 20, 30, 40};
+        result = (linearSearch(arr5, 90));
+        System.out.println("Index " + result);
+
+        int[] arr6 = {5, 15, 25};
+        result = (linearSearch(arr6, 30));
+        System.out.println("Index " + result);
+
+        //palindrome
+        int[] array = {1, 2, 3, 2, 1};
+        boolean check = isPalindrome(array);
+        System.out.println("Is palindrome: " + check);
+
+        //binarySearch
+        int[] arr8 = {10, 20, 30, 40, 50};
+        int searchResult = binarySearch(arr8, 30);
+        System.out.println("Index " + searchResult);
+
+        //String
+        //reverse the string
+
+        String word1 = "Hello";
+        System.out.println(reverseString(word1));
+
+        String word2 = "Khushi";
+        System.out.println(reverseString(word2));
     }
+
+
+
+
 }

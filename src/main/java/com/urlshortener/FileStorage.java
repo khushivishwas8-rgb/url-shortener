@@ -38,6 +38,8 @@ private static final String FILE = "url.txt";
                String[]parts = line.split(",");
                if(parts.length == 2){
                    data.put(parts[0], parts[1]);
+               }else{
+                   System.out.println("Skipping malformed line: " + line);
                }
            }
           reader.close();

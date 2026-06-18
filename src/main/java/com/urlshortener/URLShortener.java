@@ -17,6 +17,11 @@ public class URLShortener {
     // 3. Method to shorten a URL
     public String shorten(String url){
           String existingSlug = store.getSlugForUrl(url);
+
+          if(url == null || url.isEmpty()){
+              throw new InvalidURLException("URL cannot be null or empty");
+          }
+
             if(existingSlug != null ){
                 return existingSlug;
             }
