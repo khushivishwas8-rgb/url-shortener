@@ -1,5 +1,8 @@
 package com.urlshortener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DSA {
     public static int countNumber(int[] arr1, int target) {
         //time = o(1)
@@ -61,14 +64,15 @@ public class DSA {
         //time complexity:o(log n)
         //space complexity:
     }
+
     public static String reverseString(String str) {
         char[] arr = str.toCharArray();
         int i = 0;
         int j = arr.length - 1;
-        while ( i<j){
+        while (i < j) {
             char temp = arr[i];
-            arr[i]= arr[j];
-            arr[j]=   temp;
+            arr[i] = arr[j];
+            arr[j] = temp;
             i++;
             j--;
 
@@ -80,8 +84,6 @@ public class DSA {
         //time complexity = o(n)
         //space complexity =
     }
-
-
 
 
 
@@ -204,7 +206,31 @@ public class DSA {
         System.out.println(reverseString(word2));
     }
 
+    // two sum --->bruteforce approach
+//    // Input:  {2, 7, 11, 15}, target = 9
+//    int[] nums = {2, 7, 11, 15};
+//
+//    // i am checking each pair
+//    for(
+//    int i = 0;
+//    i<nums.length;i++)
+//
+//    {
+//        for (int j = i + 1; j < nums.length; j++) {
+//            //check the sum of each pair
+//            if (nums[i] + nums[j] == target) {
+//                return new int[]{i, j};
+//
+//            }
+//        }
+//    }
+//    return new int[]
+//
+//    {
+//    }
 
-
+    ;// if no pair found
+    // time complexity =0(n square)--> we use nested loop
+    //space complexity = 0(1) ---> we use fixed number of variable
 
 }

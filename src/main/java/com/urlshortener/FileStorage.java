@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileStorage {
-private static final String FILE = "url.txt";
+private static final String FILE = "urls.txt";
 
 // SAVE - write entire HashMap to file
    public static void save (Map<String,String> data){
