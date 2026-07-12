@@ -1,9 +1,14 @@
 package com.urlshortener;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 import java.util.Optional;
 import java.util.Random;
+import org.springframework.http.ResponseEntity;
+import java.net.URI;
 
 @RestController
 public class URLShortenerController {
@@ -44,13 +49,20 @@ public class URLShortenerController {
     }
 
     @GetMapping("/{slug}")
-    public String expand(@PathVariable String slug) {
+     public ResponseEntity <Void> expand(@PathVariable String slug) {
         Optional<UrlEntity> result = repository.findBySlug(slug);
-        if (result.isPresent()) {
-            return result.get().getOriginalUrl();
+
+        if(result.isPresent()){
+        String originalUrl = result.get().getOriginalUrl();
+        return ResponseEntity
+                .status(302)
+                .location(URI.create(originalUrl))
+                .build();
+
         }
-        return "Slug not found";
+        return ResponseEntity.notFound().build();
     }
+
 
     @GetMapping("/health")
     public String health() {
