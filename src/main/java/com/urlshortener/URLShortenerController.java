@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import org.springframework.http.ResponseEntity;
-import java.net.URI;
+
 
 @RestController
 public class URLShortenerController {
@@ -68,7 +68,21 @@ public class URLShortenerController {
     public String health() {
         return "OK";
     }
+   @GetMapping("/all")
+   public List<UrlEntity> getAllUrls(){
+        return repository.findAll();
+   }
 
+   @DeleteMapping("/{slug}")
+   public ResponseEntity<String> deleteUrl(@PathVariable String slug){
+        Optional<UrlEntity> result = repository.findBySlug(slug);
+        if(result.isPresent()) {
+            repository.delete(result.get());
+            return ResponseEntity.ok("Delete: " + slug);
+        }
+
+        return ResponseEntity.notFound().build();
+   }
     private String generateSlug() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 6; i++) {
