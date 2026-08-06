@@ -3,6 +3,8 @@ package com.urlshortener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
 
 import java.net.URI;
 import java.util.List;
@@ -23,14 +25,14 @@ public class URLShortenerController {
     private final Random random = new Random();
 
     @PostMapping("/shorten")
-    public String shorten(@RequestBody String url) {
+    public String shorten(@RequestBody @Valid ShortenRequest request) {
 
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            throw new InvalidURLException("Must start with http:// or https://");
-        }
+      if (!request.getUrl().startsWith("http://") && !request.getUrl().startsWith("https://")) {
+    throw new InvalidURLException("Must start with http:// or https://");
+}
 
         // STEP 1: check if this URL was already shortened before
-        Optional<UrlEntity> existing = repository.findByOriginalUrl(url);
+        Optional<UrlEntity> existing = repository.findByOriginalUrl(request.getUrl());
         if (existing.isPresent()) {
             return existing.get().getSlug();   // reuse old slug
         }
@@ -42,7 +44,7 @@ public class URLShortenerController {
         } while (repository.findBySlug(slug).isPresent());
 
         // STEP 3: save to database
-        UrlEntity entity = new UrlEntity(slug, url);
+        UrlEntity entity = new UrlEntity(slug, request.getUrl());
         repository.save(entity);
 
         return slug;
