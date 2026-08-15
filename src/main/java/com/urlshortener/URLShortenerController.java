@@ -1,96 +1,84 @@
-package com.urlshortener;
+    package com.urlshortener;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-
-
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.web.bind.annotation.*;
+    import jakarta.validation.Valid;
 
 
-@RestController
-public class URLShortenerController {
+    import java.net.URI;
+    import java.util.List;
+    import java.util.Optional;
+    import java.util.Random;
 
-    // Spring automatically gives us a working UrlRepository
-    // — we never write "new UrlRepository()" ourselves
-    @Autowired
-    private UrlRepository repository;
 
-    private static final String CHARACTERS =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private final Random random = new Random();
+    @RestController
+    public class URLShortenerController {
 
-    @PostMapping("/shorten")
-    public String shorten(@RequestBody @Valid ShortenRequest request) {
+        // Spring automatically gives us a working UrlRepository
+        // — we never write "new UrlRepository()" ourselves
+        @Autowired
+        private UrlRepository repository;
 
-      if (!request.getUrl().startsWith("http://") && !request.getUrl().startsWith("https://")) {
-    throw new InvalidURLException("Must start with http:// or https://");
-}
+        private static final String CHARACTERS =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        private final Random random = new Random();
 
-        // STEP 1: check if this URL was already shortened before
-        Optional<UrlEntity> existing = repository.findByOriginalUrl(request.getUrl());
-        if (existing.isPresent()) {
-            return existing.get().getSlug();   // reuse old slug
+        @PostMapping("/shorten")
+        public String shorten(@RequestBody @Valid ShortenRequest request) {
+
+
+            // STEP 1: check if this URL was already shortened before
+            Optional<UrlEntity> existing = repository.findByOriginalUrl(request.getUrl());
+            if (existing.isPresent()) {
+                return existing.get().getSlug();   // reuse old slug
+            }
+
+            // STEP 2: generate a new unique slug
+            String slug;
+            do {
+                slug = generateSlug();
+            } while (repository.findBySlug(slug).isPresent());
+
+            // STEP 3: save to database
+            UrlEntity entity = new UrlEntity(slug, request.getUrl());
+            repository.save(entity);
+
+            return slug;
         }
 
-        // STEP 2: generate a new unique slug
-        String slug;
-        do {
-            slug = generateSlug();
-        } while (repository.findBySlug(slug).isPresent());
+        @GetMapping("/r/{slug}")
+         public ResponseEntity <Void> expand(@PathVariable String slug) {
+            Optional<UrlEntity> result = repository.findBySlug(slug);
 
-        // STEP 3: save to database
-        UrlEntity entity = new UrlEntity(slug, request.getUrl());
-        repository.save(entity);
+            if(result.isPresent()){
+            String originalUrl = result.get().getOriginalUrl();
+            return ResponseEntity
+                    .status(302)
+                    .location(URI.create(originalUrl))
+                    .build();
 
-        return slug;
-    }
-
-    @GetMapping("/{slug}")
-     public ResponseEntity <Void> expand(@PathVariable String slug) {
-        Optional<UrlEntity> result = repository.findBySlug(slug);
-
-        if(result.isPresent()){
-        String originalUrl = result.get().getOriginalUrl();
-        return ResponseEntity
-                .status(302)
-                .location(URI.create(originalUrl))
-                .build();
-
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-
-    @GetMapping("/health")
-    public String health() {
-        return "OK";
-    }
-   @GetMapping("/all")
-   public List<UrlEntity> getAllUrls(){
-        return repository.findAll();
-   }
-
-   @DeleteMapping("/{slug}")
-   public ResponseEntity<String> deleteUrl(@PathVariable String slug){
-        Optional<UrlEntity> result = repository.findBySlug(slug);
-        if(result.isPresent()) {
-            repository.delete(result.get());
-            return ResponseEntity.ok("Delete: " + slug);
+            }
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.notFound().build();
-   }
-    private String generateSlug() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
-            sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+
+        @GetMapping("/health")
+        public String health() {
+            return "OK";
         }
-        return sb.toString();
+       @GetMapping("/all")
+       public List<UrlEntity> getAllUrls(){
+            return repository.findAll();
+       }
+
+
+        private String generateSlug() {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 6; i++) {
+                sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+            }
+            return sb.toString();
+        }
     }
-}
 
