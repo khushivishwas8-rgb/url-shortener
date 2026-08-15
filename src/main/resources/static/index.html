@@ -59,8 +59,7 @@
             })
             .then(function(slug) {
                 // Step 3: show result
-                document.getElementById('result').innerText =
-                'Short URL: localhost:8080/r/' + slug;
+                document.getElementById('result').innerText = 'Short URL: ' + window.location.origin + '/r/' + slug;
                 document.getElementById('error').innerText = '';
             })
             .catch(function(error) {
